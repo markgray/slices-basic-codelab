@@ -106,6 +106,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             val applicationInfo =
                 applicationContext.packageManager.getApplicationInfo(sliceViewerPackageName, 0)
 
+            @Suppress("SENSELESS_COMPARISON")
             if (applicationInfo != null) {
                 status = applicationInfo.enabled
             }

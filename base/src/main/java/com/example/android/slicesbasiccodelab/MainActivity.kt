@@ -18,6 +18,7 @@ package com.example.android.slicesbasiccodelab
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
@@ -103,9 +104,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun isSliceViewerApplicationEnabled(): Boolean {
         var status = false
         try {
-            val applicationInfo =
+            val applicationInfo: ApplicationInfo =
                 applicationContext.packageManager.getApplicationInfo(sliceViewerPackageName, 0)
 
+            @Suppress("SENSELESS_COMPARISON")
             if (applicationInfo != null) {
                 status = applicationInfo.enabled
             }
@@ -143,6 +145,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             return temperature
         }
 
+        @Suppress("UNUSED_PARAMETER")
         fun updateTemperature(context: Context, newTemperature: Int) {
             Log.d(TAG, "updateTemperature(): $newTemperature")
 
