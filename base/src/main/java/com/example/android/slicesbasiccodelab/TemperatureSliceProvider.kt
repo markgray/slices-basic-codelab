@@ -15,6 +15,7 @@
  */
 package com.example.android.slicesbasiccodelab
 
+import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.content.ContentResolver
 import android.content.Context
@@ -43,6 +44,7 @@ import com.example.android.slicesbasiccodelab.TemperatureBroadcastReceiver.Compa
  *
  * NOTE: The main action still allows the user to launch the main activity if they choose.
  */
+@SuppressLint("Slices")
 class TemperatureSliceProvider : SliceProvider() {
 
     private lateinit var contextNonNull: Context
@@ -69,7 +71,9 @@ class TemperatureSliceProvider : SliceProvider() {
         Log.d(TAG, "onBindSlice(): $sliceUri")
 
         // TODO: Step 2.4, Define a slice path.
-
+        when (sliceUri.path) {
+            "/temperature" -> return createTemperatureSlice(sliceUri)
+        }
 
         return null
     }
@@ -98,16 +102,44 @@ class TemperatureSliceProvider : SliceProvider() {
              */
             // TODO: Step 3.2, Create a Slice Header (title and primary action).
             header {
-                title = "Temperature Holder"
+                title = getTemperatureString(contextNonNull)
+                // Launches the main Activity associated with the Slice.
+                primaryAction = SliceAction.create(
+                    PendingIntent.getActivity(
+                        contextNonNull,
+                        sliceUri.hashCode(),
+                        Intent(contextNonNull, MainActivity::class.java),
+                        0
+                    ),
+                    IconCompat.createWithResource(contextNonNull, R.drawable.ic_home),
+                    ListBuilder.ICON_IMAGE,
+                    contextNonNull.getString(R.string.slice_action_primary_title)
+                )
             }
             // TODO: Step 3.3, Add Temperature Up Slice Action.
+            addAction(
+                SliceAction.create(
+                    createTemperatureChangePendingIntent(getTemperature() + 1),
+                    IconCompat.createWithResource(contextNonNull, R.drawable.ic_temp_up),
+                    ListBuilder.ICON_IMAGE,
+                    contextNonNull.getString(R.string.increase_temperature)
+                )
+            )
 
             // TODO: Step 3.4, Add Temperature Down Slice Action.
+            addAction(
+                SliceAction.create(
+                    createTemperatureChangePendingIntent(getTemperature() - 1),
+                    IconCompat.createWithResource(contextNonNull, R.drawable.ic_temp_down),
+                    ListBuilder.ICON_IMAGE,
+                    contextNonNull.getString(R.string.decrease_temperature)
+                )
+            )
 
         }
     }
 
-    // TODO: Step 3.4, Review Pending Intent Creation.
+    // TODO: Step 3.5, Review Pending Intent Creation.
     // PendingIntent that triggers an increase/decrease in temperature.
     private fun createTemperatureChangePendingIntent(value: Int): PendingIntent {
         val intent = Intent(ACTION_CHANGE_TEMPERATURE)
