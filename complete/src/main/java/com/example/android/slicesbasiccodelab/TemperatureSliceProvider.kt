@@ -15,6 +15,7 @@
  */
 package com.example.android.slicesbasiccodelab
 
+import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.content.ContentResolver
 import android.content.Context
@@ -43,6 +44,7 @@ import com.example.android.slicesbasiccodelab.TemperatureBroadcastReceiver.Compa
  *
  * NOTE: The main action still allows the user to launch the main activity if they choose.
  */
+@SuppressLint("Slices")
 class TemperatureSliceProvider : SliceProvider() {
 
     private lateinit var contextNonNull: Context
