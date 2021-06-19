@@ -35,9 +35,35 @@ import androidx.appcompat.app.AppCompatActivity
  */
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
+    /**
+     * The [TextView] with ID [R.id.temperature] that we use to display the current temperature
+     */
     private lateinit var temperatureTextView: TextView
+
+    /**
+     * The package name of the "com.example.android.sliceviewer" package that we use to display our
+     * slice in. Its APK (the file slice-viewer.apk) is in the root directory of the codelab, and
+     * needs to be installed using the command: adb install -r -t slice-viewer.apk
+     */
     private lateinit var sliceViewerPackageName: String
 
+    /**
+     * Called when the activity is starting. First we call our super's implementation of `onCreate`,
+     * then we set our content view to our layout file [R.layout.activity_main] which consists of a
+     * `ConstraintLayout` holding a [TextView] with ID [R.id.temperature] which we use to display
+     * the current temperature, an "Increase Temperature" [Button] with id [R.id.increase_temp],
+     * a 'Decrease Temperature" [Button] with id [R.id.decrease_temp], and an "Launch Slice Viewer"
+     * [Button] with id [R.id.launch_slice_viewer_application].
+     *
+     * Having set our content view we next initialize our [TextView] field [temperatureTextView] by
+     * finding the view with ID [R.id.temperature], initialize our [String] field [sliceViewerPackageName]
+     * to the string with ID [R.string.slice_viewer_application_package_name] from our resources
+     * (its value is "com.example.android.sliceviewer"), and set the [View.OnClickListener] of all
+     * three of our [Button]s to `this` (our [onClick] override will branch on the ID of the [View]
+     * that was clicked in order to decide what needs to be done when the user clicks a [Button]).
+     *
+     * @param savedInstanceState we do not override [onSaveInstanceState] so do not use.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -54,6 +80,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         findViewById<Button>(R.id.launch_slice_viewer_application).setOnClickListener(this)
     }
 
+    /**
+     * Called after [onRestoreInstanceState], [onRestart], or [onPause], for your activity to start
+     * interacting with the user. This is an indicator that the activity became active and ready to
+     * receive input. It is on top of an activity stack and visible to user.
+     */
     public override fun onResume() {
         super.onResume()
         temperatureTextView.text = getTemperatureString(applicationContext)
