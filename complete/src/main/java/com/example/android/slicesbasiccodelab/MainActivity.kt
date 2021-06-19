@@ -83,13 +83,32 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     /**
      * Called after [onRestoreInstanceState], [onRestart], or [onPause], for your activity to start
      * interacting with the user. This is an indicator that the activity became active and ready to
-     * receive input. It is on top of an activity stack and visible to user.
+     * receive input. It is on top of an activity stack and visible to user. First we call our
+     * super's implementation of `onResume`, then we set the text of our [TextView] field
+     * [temperatureTextView] to the formatted [String] returned by our [getTemperatureString] method.
      */
     public override fun onResume() {
         super.onResume()
         temperatureTextView.text = getTemperatureString(applicationContext)
     }
 
+    /**
+     * Called when a view has been clicked. We branch on the ID of the [View] parameter [view]:
+     *  - [R.id.increase_temp] (the "Increase Temperature" [Button]) we call our [updateTemperature]
+     *  method to have it increment our static field [temperature] by 1 and notify our slice about
+     *  the new temperature.
+     *  - [R.id.decrease_temp] (the "Decrease Temperature" [Button]) we call our [updateTemperature]
+     *  method to have it decrement our static field [temperature] by 1 and notify our slice about
+     *  the new temperature.
+     *  - [R.id.launch_slice_viewer_application] (the "Launch Slice Viewer" [Button]) we call our
+     *  [launchSliceViewerApplication] method to have it start our slice viewer app slice-viewer.apk
+     *  - For any other ID we return having done nothing.
+     *
+     * Finally we set the text of our [TextView] field [temperatureTextView] to the formatted [String]
+     * returned by our [getTemperatureString] method.
+     *
+     * @param view The [View] that was clicked.
+     */
     override fun onClick(view: View) {
         when (view.id) {
             R.id.increase_temp -> updateTemperature(applicationContext, temperature + 1)
@@ -100,8 +119,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         temperatureTextView.text = getTemperatureString(applicationContext)
     }
 
+    /**
+     * Called to launch the external package "com.example.android.sliceviewer" to preview Slice.
+     */
     private fun launchSliceViewerApplication() {
-
         if (isSliceViewerApplicationInstalled() && isSliceViewerApplicationEnabled()) {
             val uri = getString(R.string.uri_specific_for_slice_viewer_application)
             val sliceViewerIntent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
