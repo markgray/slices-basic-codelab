@@ -16,6 +16,7 @@
 
 package com.example.android.slicesbasiccodelab
 
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ApplicationInfo
@@ -30,6 +31,7 @@ import android.widget.TextView
 import android.widget.Toast
 
 import androidx.appcompat.app.AppCompatActivity
+import com.example.android.slicesbasiccodelab.TemperatureBroadcastReceiver.Companion.EXTRA_TEMPERATURE_VALUE
 
 /**
  * Displays the current temperature and allows user to adjust it up and down. Any adjustments from
@@ -251,10 +253,33 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             return context.getString(R.string.temperature, temperature)
         }
 
+        /**
+         * Getter for our [temperature] field that is used by [TemperatureBroadcastReceiver] and
+         * [TemperatureSliceProvider]. The `onReceive` override of [TemperatureBroadcastReceiver]
+         * uses the value returned as the default when it retrieves the new value that is stored
+         * under the key [EXTRA_TEMPERATURE_VALUE] in the extras of the broadcast [Intent] that it
+         * receives, and [TemperatureSliceProvider] uses the value returned in creating both the
+         * "Temperature Up Slice Action", and the "Temperature Down Slice Action" incrementing and
+         * decrementing the value respectively when creating the [PendingIntent] that is invoked for
+         * the actions.
+         *
+         * @return the current value of our [Int] field [temperature].
+         */
         fun getTemperature(): Int {
             return temperature
         }
 
+        /**
+         * If our [Int] parameter [newTemperature] is different than our [Int] field [temperature]
+         * we update [temperature] to [newTemperature] and then notify our slice via URI that the
+         * temperature has changed so that they can update their views.
+         *
+         * @param context either the [Context] in which the receiver is running when called form the
+         * `onReceive` override of [TemperatureBroadcastReceiver] or the the [Context] of the single
+         * global Application object of the current process when called from the [onClick] of this
+         * [MainActivity].
+         * @param newTemperature the new temperature to set our [temperature] field to.
+         */
         fun updateTemperature(context: Context, newTemperature: Int) {
             Log.d(TAG, "updateTemperature(): $newTemperature")
 
