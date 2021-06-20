@@ -38,7 +38,7 @@
             </intent-filter>
         </activity>
 
-        <!-- TODO: Step 2.1, Add SliceProvider to Manifest. -->
+        <!-- Step 2.1, Add SliceProvider to Manifest. -->
         <provider
             android:authorities="com.example.android.slicesbasiccodelab"
             android:name=".TemperatureSliceProvider"

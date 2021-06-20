@@ -18,6 +18,8 @@ package com.example.android.slicesbasiccodelab
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
@@ -120,19 +122,49 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     /**
-     * Called to launch the external package "com.example.android.sliceviewer" to preview Slice.
+     * Called to launch the external package "com.example.android.sliceviewer" to preview our Slice.
+     * If our [isSliceViewerApplicationInstalled] method returns `true` (indicating that the
+     * PackageManager was able to retrieve package information about the package named
+     * [sliceViewerPackageName] indicating that it is installed on the system) and our
+     * [isSliceViewerApplicationEnabled] method returns `true` (indicating that the [ApplicationInfo]
+     * for the package named [sliceViewerPackageName] has its `enabled` property set indicating that
+     * the package is enabled) we proceed to:
+     *  - Initialize our [String] variable `val uri` to the resource string with the ID
+     *  [R.string.uri_specific_for_slice_viewer_application], which is:
+     *  "slice-content://com.example.android.slicesbasiccodelab/temperature"
+     *  - Initialize our [Intent] variable `val sliceViewerIntent` to an instance whose action is
+     *  [Intent.ACTION_VIEW] (Display the data to the user) and whose Intent data URI is the [Uri]
+     *  that the [Uri.parse] method creates by parsing our [String] variable `uri`.
+     *  - Finally we launch the activity specified by the [Intent] variable `sliceViewerIntent`.
      */
     private fun launchSliceViewerApplication() {
         if (isSliceViewerApplicationInstalled() && isSliceViewerApplicationEnabled()) {
-            val uri = getString(R.string.uri_specific_for_slice_viewer_application)
+            val uri: String = getString(R.string.uri_specific_for_slice_viewer_application)
             val sliceViewerIntent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
             startActivity(sliceViewerIntent)
         }
     }
 
+    /**
+     * Queries the [PackageManager] for the [PackageInfo] of the package named [sliceViewerPackageName]
+     * and returns `true` iff the [PackageManager] was able to find that package installed on the
+     * system. First we initialize our [PackageManager] variable `val packageManager` to a
+     * [PackageManager] instance for finding global package information. Then wrapped in a `try`
+     * block intended to catch [PackageManager.NameNotFoundException] we call the
+     * [PackageManager.getPackageInfo] method of `packageManager` to retrieve the [PackageInfo] for
+     * the package with the name [sliceViewerPackageName] using the [PackageManager.GET_ACTIVITIES]
+     * flag to have it return information about activities in the package. If this succeeds without
+     * throwing [PackageManager.NameNotFoundException] we return `true` to the caller. If it does
+     * throw [PackageManager.NameNotFoundException] we make and show a [Toast] informing the user
+     * that the "Slice Viewer Application is not installed...", log the error and return `false` to
+     * the caller.
+     *
+     * @return `true` if the [PackageManager] determined that the package named [sliceViewerPackageName]
+     * is installed on the system.
+     */
     private fun isSliceViewerApplicationInstalled(): Boolean {
 
-        val packageManager = applicationContext.packageManager
+        val packageManager: PackageManager = applicationContext.packageManager
 
         try {
             packageManager.getPackageInfo(sliceViewerPackageName, PackageManager.GET_ACTIVITIES)
@@ -142,7 +174,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             val notInstalledToast = Toast.makeText(
                 applicationContext,
                 getString(R.string.slice_viewer_application_not_installed),
-                Toast.LENGTH_LONG)
+                Toast.LENGTH_LONG
+            )
 
             notInstalledToast.show()
 
@@ -152,10 +185,25 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         return false
     }
 
+    /**
+     * Queries the [PackageManager] for the [ApplicationInfo] of the package [sliceViewerPackageName]
+     * and returns `true` if the `enabled` property of that [ApplicationInfo] is `true`. First we
+     * initialize our [Boolean] variable `var status` to `false`, then wrapped in a `try` block
+     * intended to catch [PackageManager.NameNotFoundException] we initialize our [ApplicationInfo]
+     * variable `val applicationInfo` to the [ApplicationInfo] that the method
+     * [PackageManager.getApplicationInfo] returns for the package named [sliceViewerPackageName].
+     * If this is not `null` we set our `status` variable to the value of the [ApplicationInfo.enabled]
+     * property of `applicationInfo`. If we catch [PackageManager.NameNotFoundException] we make and
+     * show a [Toast] informing the user that the "Slice Viewer Application is not enabled..." and
+     * log the error. Finally we return `status` to the caller.
+     *
+     * @return `true` if the `enabled` property of the [ApplicationInfo] of the package named
+     * [sliceViewerPackageName] is `true`.
+     */
     private fun isSliceViewerApplicationEnabled(): Boolean {
         var status = false
         try {
-            val applicationInfo =
+            val applicationInfo: ApplicationInfo =
                 applicationContext.packageManager.getApplicationInfo(sliceViewerPackageName, 0)
 
             @Suppress("SENSELESS_COMPARISON")
@@ -179,15 +227,26 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     companion object {
 
+        /**
+         * TAG used for logging.
+         */
         private const val TAG = "MainActivity"
 
-        /* Temperature is in Celsius.
+        /**
+         * Temperature is in Celsius.
          *
          * NOTE: You should store your data in a more permanent way that doesn't disappear when the
          * app is killed. This drastically simplified sample is focused on learning Slices.
          */
         private var temperature = 16
 
+        /**
+         * Returns a [String] which displays our [temperature] field formatted using the format in
+         * [R.string.temperature].
+         *
+         * @return [String] which displays our [temperature] field formatted using the format in
+         * [R.string.temperature].
+         */
         fun getTemperatureString(context: Context): String {
             return context.getString(R.string.temperature, temperature)
         }
@@ -199,7 +258,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         fun updateTemperature(context: Context, newTemperature: Int) {
             Log.d(TAG, "updateTemperature(): $newTemperature")
 
-            // TODO: Step 2.2, Notify TemperatureSliceProvider the temperature changed.
+            // Step 2.2, Notify TemperatureSliceProvider the temperature changed.
             if (temperature != newTemperature) {
                 temperature = newTemperature
 
