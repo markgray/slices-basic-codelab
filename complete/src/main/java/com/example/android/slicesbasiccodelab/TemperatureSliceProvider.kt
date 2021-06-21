@@ -38,39 +38,59 @@ import com.example.android.slicesbasiccodelab.TemperatureBroadcastReceiver.Compa
 import com.example.android.slicesbasiccodelab.TemperatureBroadcastReceiver.Companion.EXTRA_TEMPERATURE_VALUE
 
 /**
- * Creates a temperature control Slice that mirrors the main activity. The slice displays the
- * current temperature and allows the user to adjust the temperature up and down from the Slice
- * without launching the activity.
- *
- * NOTE: The main action still allows the user to launch the main activity if they choose.
+ * Creates a temperature control [Slice] that mirrors the main activity. The slice displays the
+ * current temperature and allows the user to adjust the temperature up and down from the [Slice]
+ * without launching the activity. NOTE: The main action still allows the user to launch the main
+ * activity if they choose. It is named as a `ContentProvider` by a `provider` element in our
+ * AndroidManifest.xml file, with an `intent-filter` element whose `action` is [Intent.ACTION_VIEW],
+ * and whose `category` is "android.app.slice.category.SLICE". Its [getUri] method is called by the
+ * `updateTemperature` method of [MainActivity].
  */
 @SuppressLint("Slices")
 class TemperatureSliceProvider : SliceProvider() {
 
+    /**
+     * The is the [Context] this provider is running in. It is initialize our our [onCreateSliceProvider]
+     * override and guaranteed to not be `null` (once [onCreateSliceProvider] returns `true` indicating
+     * that the provider was successfully loaded).
+     */
     private lateinit var contextNonNull: Context
 
+    /**
+     * Implement this to initialize your slice provider on startup. This method is called for all
+     * registered slice providers on the application main thread at application launch time.  It
+     * must not perform lengthy operations, or application startup will be delayed. We initialize
+     * our [Context] field [contextNonNull] to the [Context] this provider is running in, and if
+     * that is `null` we return `false` to indicate we failed to load successfully. If is it
+     * non-`null` we return `true` to indicate we were successfully loaded.
+     *
+     * @return `true` if the provider was successfully loaded, `false` otherwise
+     */
     override fun onCreateSliceProvider(): Boolean {
-        // TODO: Step 2.3, Review non-nullable Context variable.
+        // Step 2.3, Review non-nullable Context variable.
         contextNonNull = context ?: return false
         return true
     }
 
-    /*
-     * Each Slice has an associated URI. The standard format is package name + path for each Slice.
-     * In our case, we only have one slice mapped to the 'temperature' path
+    /**
+     * Each [Slice] has an associated URI. The standard format is package name + path for each
+     * [Slice]. In our case, we only have one slice mapped to the 'temperature' path
      * ('com.example.android.slicesbasiccodelab/temperature').
      *
-     * When a surface wants to display a Slice, it sends a binding request to your app with this
+     * When a surface wants to display a [Slice], it sends a binding request to your app with this
      * URI via this method and you build out the slice to return. The surface can then display the
-     * Slice when appropriate.
+     * [Slice] when appropriate.
      *
      * Note: You can make your slices interactive by adding actions. (We do this for our
      * temperature up/down buttons.)
+     *
+     * @param sliceUri the [Uri] used by the surface when it sent a binding request to our app
+     * @return a [Slice] that can be displayed in the app that sent us a binding request.
      */
     override fun onBindSlice(sliceUri: Uri): Slice? {
         Log.d(TAG, "onBindSlice(): $sliceUri")
 
-        // TODO: Step 2.4, Define a slice path.
+        // Step 2.4, Define a slice path.
         when (sliceUri.path) {
             "/temperature" -> return createTemperatureSlice(sliceUri)
         }
@@ -87,7 +107,7 @@ class TemperatureSliceProvider : SliceProvider() {
          * so we just need to use list() and include some general arguments before defining the
          * structure of the Slice.
          */
-        // TODO: Step 3.1, Review Slice's ListBuilder.
+        // Step 3.1, Review Slice's ListBuilder.
         return list(contextNonNull, sliceUri, ListBuilder.INFINITY) {
             setAccentColor(ContextCompat.getColor(contextNonNull, R.color.slice_accent_color))
             /* The first row of your slice should be a header. The header supports a title,
@@ -99,7 +119,7 @@ class TemperatureSliceProvider : SliceProvider() {
              * If we wanted to add additional rows, you can use the RowBuilder or the GridBuilder.
              *
              */
-            // TODO: Step 3.2, Create a Slice Header (title and primary action).
+            // Step 3.2, Create a Slice Header (title and primary action).
             header {
                 title = getTemperatureString(contextNonNull)
                 // Launches the main Activity associated with the Slice.
@@ -115,7 +135,7 @@ class TemperatureSliceProvider : SliceProvider() {
                     contextNonNull.getString(R.string.slice_action_primary_title)
                 )
             }
-            // TODO: Step 3.3, Add Temperature Up Slice Action.
+            // Step 3.3, Add Temperature Up Slice Action.
             addAction(
                 SliceAction.create(
                     createTemperatureChangePendingIntent(getTemperature() + 1),
@@ -124,7 +144,7 @@ class TemperatureSliceProvider : SliceProvider() {
                     contextNonNull.getString(R.string.increase_temperature)
                 )
             )
-            // TODO: Step 3.4, Add Temperature Down Slice Action.
+            // Step 3.4, Add Temperature Down Slice Action.
             addAction(
                 SliceAction.create(
                     createTemperatureChangePendingIntent(getTemperature() - 1),
@@ -136,7 +156,7 @@ class TemperatureSliceProvider : SliceProvider() {
         }
     }
 
-    // TODO: Step 3.4, Review Pending Intent Creation.
+    // Step 3.4, Review Pending Intent Creation.
     // PendingIntent that triggers an increase/decrease in temperature.
     private fun createTemperatureChangePendingIntent(value: Int): PendingIntent {
         val intent = Intent(ACTION_CHANGE_TEMPERATURE)
