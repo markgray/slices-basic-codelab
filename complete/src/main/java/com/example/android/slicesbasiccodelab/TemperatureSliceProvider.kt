@@ -84,6 +84,15 @@ class TemperatureSliceProvider : SliceProvider() {
      * Note: You can make your slices interactive by adding actions. (We do this for our
      * temperature up/down buttons.)
      *
+     * First we log the [Uri] parameter [sliceUri] that was sent to us in the binding request of
+     * the "slice-viewer.apk" package. (This [Uri] is the same one sent to the `sliceviewer` app
+     * from the [MainActivity.launchSliceViewerApplication] method as the Intent data URI of the
+     * [Intent] used to launch it). Then when the `path` of [sliceUri] is "/temperature" we return
+     * the [Slice] created by our [createTemperatureSlice] method. (If our app defined more [Slice]s
+     * each would have a different `path` which we could switch on here).
+     *
+     * If the `path` of [sliceUri] is not "/temperature" we return `null`.
+     *
      * @param sliceUri the [Uri] used by the surface when it sent a binding request to our app
      * @return a [Slice] that can be displayed in the app that sent us a binding request.
      */
@@ -97,7 +106,12 @@ class TemperatureSliceProvider : SliceProvider() {
         return null
     }
 
-    // Creates the actual Slice used in onBindSlice().
+    /**
+     * Creates the actual [Slice] returned from [onBindSlice].
+     *
+     * @param sliceUri the [Uri] that was passed to [onBindSlice].
+     * @return a [Slice] that displays the temperature and allows it to be changed.
+     */
     private fun createTemperatureSlice(sliceUri: Uri): Slice {
         Log.d(TAG, "createTemperatureSlice(): $sliceUri")
 
