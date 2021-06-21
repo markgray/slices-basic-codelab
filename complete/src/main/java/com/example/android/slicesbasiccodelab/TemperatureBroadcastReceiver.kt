@@ -35,8 +35,8 @@ class TemperatureBroadcastReceiver : BroadcastReceiver() {
      * of our [Intent] parameter [intent] is [ACTION_CHANGE_TEMPERATURE] we initialize our [Int]
      * variable `val newValue` to the value stored under the key [EXTRA_TEMPERATURE_VALUE] in the
      * extras of [intent] using the current value of temperature returned by the [getTemperature]
-     * method as the default. Then we call the [updateTemperature] method with our [Context] paramer
-     * [context] and `newValue` to have it update the temperature.
+     * method as the default. Then we call the [updateTemperature] method with our [Context]
+     * parameter [context] and `newValue` to have it update the temperature.
      *
      * @param context The [Context] in which the receiver is running.
      * @param intent The [Intent] being received.
