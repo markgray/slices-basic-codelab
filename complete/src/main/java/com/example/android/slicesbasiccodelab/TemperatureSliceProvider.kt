@@ -197,7 +197,15 @@ class TemperatureSliceProvider : SliceProvider() {
 
     /**
      * Step 3.4, Review Pending Intent Creation. Creates a [PendingIntent] that triggers an increase
-     * or decrease in temperature.
+     * or decrease in temperature. First we initialize our [Intent] variable `val intent` to a new
+     * instance whose action is [ACTION_CHANGE_TEMPERATURE], whose target is [TemperatureBroadcastReceiver]
+     * with an [Int] extra of our parameter [value] stored under the key [EXTRA_TEMPERATURE_VALUE].
+     * Then we return a broadcast [PendingIntent] using [contextNonNull] as the [Context] in which
+     * the [PendingIntent] should perform the broadcast, a request code of [requestCode] (which we
+     * post increment for the next time we are called), `intent` as the [Intent] to be broadcast,
+     * and [PendingIntent.FLAG_UPDATE_CURRENT] as the flags (Flag indicating that if the described
+     * [PendingIntent] already exists, then keep it but replace its extra data with what is in this
+     * new [Intent]).
      *
      * @param value the new value for the temperature.
      * @return a [PendingIntent] whose action is [ACTION_CHANGE_TEMPERATURE], whose target is the
@@ -216,9 +224,28 @@ class TemperatureSliceProvider : SliceProvider() {
     }
 
     companion object {
+        /**
+         * TAG used for logging.
+         */
         private const val TAG = "TempSliceProvider"
+
+        /**
+         * The request code of the broadcast [PendingIntent] which we send to our class
+         * [TemperatureBroadcastReceiver]
+         */
         private var requestCode = 0
 
+        /**
+         * Convenience function to construct and return a [Uri] whose scheme is "content"
+         * ([ContentResolver.SCHEME_CONTENT]), whose authority is the name of this application's
+         * package, and whose path is our [String] parameter [path]. In our case this [Uri] is
+         * "content://com.example.android.slicesbasiccodelab/temperature"
+         *
+         * @param context the [Context] to use to fetch the package name, the context of the single,
+         * global Application object of the current process when we are called from [MainActivity].
+         * @param path the path of the [Uri], always "temperature" in our case.
+         * @return a [Uri] that we can use to notify our [Slice] that the temperature has changed.
+         */
         fun getUri(context: Context, path: String): Uri {
             return Uri.Builder()
                 .scheme(ContentResolver.SCHEME_CONTENT)
