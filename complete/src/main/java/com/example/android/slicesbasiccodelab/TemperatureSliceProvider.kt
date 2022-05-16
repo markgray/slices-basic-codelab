@@ -167,7 +167,7 @@ class TemperatureSliceProvider : SliceProvider() {
                         contextNonNull,
                         sliceUri.hashCode(),
                         Intent(contextNonNull, MainActivity::class.java),
-                        0
+                        PendingIntent.FLAG_IMMUTABLE
                     ),
                     IconCompat.createWithResource(contextNonNull, R.drawable.ic_home),
                     ListBuilder.ICON_IMAGE,
@@ -219,7 +219,7 @@ class TemperatureSliceProvider : SliceProvider() {
 
         return PendingIntent.getBroadcast(
             contextNonNull, requestCode++, intent,
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
     }
 

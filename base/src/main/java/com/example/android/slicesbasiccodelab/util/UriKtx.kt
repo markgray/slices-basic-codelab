@@ -25,6 +25,7 @@ import android.net.Uri
  *
  * @return Uri with the provided path.
  */
+@Suppress("unused")
 fun Context.buildUriWithAuthority(path: String): Uri {
     return Uri.Builder()
         .scheme(ContentResolver.SCHEME_CONTENT)
