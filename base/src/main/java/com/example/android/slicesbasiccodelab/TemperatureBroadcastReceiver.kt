@@ -27,10 +27,21 @@ import com.example.android.slicesbasiccodelab.MainActivity.Companion.updateTempe
  */
 class TemperatureBroadcastReceiver : BroadcastReceiver() {
 
+    /**
+     * This method is called when the [BroadcastReceiver] is receiving an [Intent] broadcast. If
+     * the [Intent.getAction] (aka kotlin `action` property) of our [Intent] is
+     * [ACTION_CHANGE_TEMPERATURE] we initialize our [Int] variable `val newValue` to the value
+     * stored in the extras of our [Intent] parameter [intent] under the key [EXTRA_TEMPERATURE_VALUE]
+     * and if that succeeds we call our method [updateTemperature] to update our temperature to
+     * `newValue`.
+     *
+     * @param context The Context in which the receiver is running.
+     * @param intent The Intent being received.
+     */
     override fun onReceive(context: Context, intent: Intent) {
 
         if (ACTION_CHANGE_TEMPERATURE == intent.action) {
-            val newValue =
+            val newValue: Int =
                 intent.extras?.getInt(EXTRA_TEMPERATURE_VALUE, getTemperature()) ?: return
             updateTemperature(context, newValue)
         }
@@ -39,7 +50,14 @@ class TemperatureBroadcastReceiver : BroadcastReceiver() {
     companion object {
         private const val PACKAGE_NAME = "com.example.android.slicesbasiccodelab"
 
-        const val ACTION_CHANGE_TEMPERATURE = "$PACKAGE_NAME.action.CHANGE_TEMPERATURE"
-        const val EXTRA_TEMPERATURE_VALUE = "$PACKAGE_NAME.extra.TEMPERATURE_VALUE"
+        /**
+         * The [Intent] action we use to update the temperature
+         */
+        const val ACTION_CHANGE_TEMPERATURE: String = "$PACKAGE_NAME.action.CHANGE_TEMPERATURE"
+
+        /**
+         * The key under which the new temperature value is stored in the extras of the [Intent].
+         */
+        const val EXTRA_TEMPERATURE_VALUE: String = "$PACKAGE_NAME.extra.TEMPERATURE_VALUE"
     }
 }

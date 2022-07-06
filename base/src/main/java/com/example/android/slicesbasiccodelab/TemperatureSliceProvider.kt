@@ -49,13 +49,18 @@ class TemperatureSliceProvider : SliceProvider() {
 
     private lateinit var contextNonNull: Context
 
+    /**
+     * We implement this to initialize our slice provider on startup.
+     *
+     * @return true if the provider was successfully loaded, false otherwise
+     */
     override fun onCreateSliceProvider(): Boolean {
         // TODO: Step 2.3, Review non-nullable Context variable.
         contextNonNull = context ?: return false
         return true
     }
 
-    /*
+    /**
      * Each Slice has an associated URI. The standard format is package name + path for each Slice.
      * In our case, we only have one slice mapped to the 'temperature' path
      * ('com.example.android.slicesbasiccodelab/temperature').
@@ -66,6 +71,13 @@ class TemperatureSliceProvider : SliceProvider() {
      *
      * Note: You can make your slices interactive by adding actions. (We do this for our
      * temperature up/down buttons.)
+     *
+     * If the [Uri.getPath] (aka kotlin `path` property) of our [Uri] parameter [sliceUri] is
+     * "/temperature" we return the [Slice] created by our [createTemperatureSlice] method for
+     * [sliceUri], otherwise we return `null`.
+     *
+     * @param sliceUri the [Uri] for the [Slice] we were called to create.
+     * @return a [Slice] created for the [Uri] parameter [sliceUri]
      */
     override fun onBindSlice(sliceUri: Uri): Slice? {
         Log.d(TAG, "onBindSlice(): $sliceUri")
@@ -156,6 +168,15 @@ class TemperatureSliceProvider : SliceProvider() {
         private const val TAG = "TempSliceProvider"
         private var requestCode = 0
 
+        /**
+         * Builds a content [Uri] whose authority is our package name and whose path is our [String]
+         * parameter [path].
+         *
+         * @param context the [Context] of the app which we use to retrieve our package name.
+         * @param path the path to add to the content [Uri] that we create.
+         * @return a content [Uri] whose authority is our package name, and whose path is our
+         * [String] parameter [path].
+         */
         fun getUri(context: Context, path: String): Uri {
             return Uri.Builder()
                 .scheme(ContentResolver.SCHEME_CONTENT)

@@ -60,12 +60,12 @@ class TemperatureBroadcastReceiver : BroadcastReceiver() {
         /**
          * The [Intent] action that our [onReceive] override understands.
          */
-        const val ACTION_CHANGE_TEMPERATURE = "$PACKAGE_NAME.action.CHANGE_TEMPERATURE"
+        const val ACTION_CHANGE_TEMPERATURE: String = "$PACKAGE_NAME.action.CHANGE_TEMPERATURE"
 
         /**
          * The key under which the new temperature is stored as an extra in the broadcast [Intent]
          * which our [onReceive] override receives.
          */
-        const val EXTRA_TEMPERATURE_VALUE = "$PACKAGE_NAME.extra.TEMPERATURE_VALUE"
+        const val EXTRA_TEMPERATURE_VALUE: String = "$PACKAGE_NAME.extra.TEMPERATURE_VALUE"
     }
 }
