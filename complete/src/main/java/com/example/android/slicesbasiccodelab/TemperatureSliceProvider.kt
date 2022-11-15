@@ -47,7 +47,7 @@ import com.example.android.slicesbasiccodelab.TemperatureBroadcastReceiver.Compa
  * and whose `category` is "android.app.slice.category.SLICE". Its [getUri] method is called by the
  * `updateTemperature` method of [MainActivity].
  */
-@SuppressLint("Slices")
+@SuppressLint("Slices") // TODO: Implement SliceProvider#onMapIntentToUri to handle the intents defined on your slice <provider> in your manifest
 class TemperatureSliceProvider : SliceProvider() {
 
     /**
