@@ -44,7 +44,7 @@ import com.example.android.slicesbasiccodelab.TemperatureBroadcastReceiver.Compa
  *
  * NOTE: The main action still allows the user to launch the main activity if they choose.
  */
-@SuppressLint("Slices")
+@SuppressLint("Slices") // TODO: Implement SliceProvider#onMapIntentToUri to handle the intents defined on your slice <provider> in your manifest
 class TemperatureSliceProvider : SliceProvider() {
 
     private lateinit var contextNonNull: Context

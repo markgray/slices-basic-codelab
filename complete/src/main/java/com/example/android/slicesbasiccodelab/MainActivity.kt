@@ -169,6 +169,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         val packageManager: PackageManager = applicationContext.packageManager
 
         try {
+            @Suppress("DEPRECATION") // TODO: Use getPackageInfo(String, PackageManager.PackageInfoFlags) for SDK 33+
             packageManager.getPackageInfo(sliceViewerPackageName, PackageManager.GET_ACTIVITIES)
             return true
         } catch (ignored: PackageManager.NameNotFoundException) {
@@ -205,6 +206,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun isSliceViewerApplicationEnabled(): Boolean {
         var status = false
         try {
+            @Suppress("DEPRECATION") // TODO: Use getApplicationInfo(String, PackageManager.ApplicationInfoFlags) for SDK 33+
             val applicationInfo: ApplicationInfo =
                 applicationContext.packageManager.getApplicationInfo(sliceViewerPackageName, 0)
 
