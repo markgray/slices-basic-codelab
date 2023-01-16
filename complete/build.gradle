@@ -36,10 +36,15 @@ android {
     namespace 'com.example.android.slicesbasiccodelab'
 }
 
+repositories {
+    google()
+    mavenCentral()
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'androidx.appcompat:appcompat:1.6.0'
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
@@ -47,7 +52,10 @@ dependencies {
     // slice sample, below are a list of the slice dependencies:
     // implementation "androidx.slice:slice-core:latest-version"
     // implementation "androidx.slice:slice-builders:latest-version"
-    implementation "androidx.slice:slice-builders-ktx:1.0.0-alpha6"
+    implementation 'androidx.slice:slice-core:1.0.0'
+    implementation 'androidx.slice:slice-builders:1.0.0'
+    //noinspection GradleDependency TODO: figure out why the newer versions use `val` for header
+    implementation 'androidx.slice:slice-builders-ktx:1.0.0-alpha3'
 
     testImplementation 'junit:junit:4.13.2'
 }
