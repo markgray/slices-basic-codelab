@@ -201,7 +201,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
          * @param context the [Context] of the app.
          * @param newTemperature the new temperature.
          */
-        @Suppress("UNUSED_PARAMETER") // Suggested change would make class less reusable
         fun updateTemperature(context: Context, newTemperature: Int) {
             Log.d(TAG, "updateTemperature(): $newTemperature")
 
