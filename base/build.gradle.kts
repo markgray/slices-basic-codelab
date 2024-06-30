@@ -13,23 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-apply plugin: "com.android.application"
-apply plugin: "kotlin-android"
+
+plugins {
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+}
 
 android {
-    compileSdk (34)
+    compileSdk = 34
     defaultConfig {
-        applicationId ("com.example.android.slicesbasiccodelab")
-        minSdkVersion (23)
-        targetSdkVersion (34)
-        versionCode (1)
-        versionName ("1.0")
-        testInstrumentationRunner ("androidx.test.runner.AndroidJUnitRunner")
+        applicationId = "com.example.android.slicesbasiccodelab"
+        minSdk = 23
+        targetSdk = 34
+        versionCode = 1
+        versionName = "1.0"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
-            minifyEnabled (false)
-            proguardFiles (getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
@@ -39,29 +45,22 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
-    namespace ("com.example.android.slicesbasiccodelab")
-}
-
-repositories {
-    google()
-    mavenCentral()
+    namespace = "com.example.android.slicesbasiccodelab"
 }
 
 dependencies {
-    implementation (fileTree(dir: "libs", include: ["*.jar"]))
-
-    implementation ("androidx.appcompat:appcompat:1.7.0")
-    implementation ("androidx.core:core-ktx:1.13.1")
-    implementation ("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.appcompat:appcompat:1.7.0")
+    implementation("androidx.core:core-ktx:1.13.1")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
     // The slice builder ktx library has a number of dependencies. For reference, since this is a
     // slice sample, below are a list of the slice dependencies:
     // implementation "androidx.slice:slice-core:latest-version"
     // implementation "androidx.slice:slice-builders:latest-version"
-    implementation ("androidx.slice:slice-core:1.0.0")
-    implementation ("androidx.slice:slice-builders:1.0.0")
+    implementation("androidx.slice:slice-core:1.0.0")
+    implementation("androidx.slice:slice-builders:1.0.0")
     //noinspection GradleDependency TODO: figure out why the newer versions use `val` for header
-    implementation ("androidx.slice:slice-builders-ktx:1.0.0-alpha3")
+    implementation("androidx.slice:slice-builders-ktx:1.0.0-alpha3")
 
-    testImplementation ("junit:junit:4.13.2")
+    testImplementation("junit:junit:4.13.2")
 }
