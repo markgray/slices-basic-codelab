@@ -116,23 +116,23 @@ class TemperatureSliceProvider : SliceProvider() {
      * milliseconds that the content in this slice can live for, and then applies our lambda to
      * the [ListBuilder] which:
      *  - Sets the color to use on tintable items within the list builder to the color stored in
-     *  our resources with the ID [R.color.slice_accent_color] (a bright Red)
+     *  our resources with the ID `R.color.slice_accent_color` (a bright Red)
      *  - Sets a header for the list builder whose title is the [String] returned by our
      *  [getTemperatureString] method, whose primary action when clicked is a [SliceAction] that
-     *  launches our [MainActivity], whose icon to display has the ID [R.drawable.ic_home], with
+     *  launches our [MainActivity], whose icon to display has the ID `R.drawable.ic_home`, with
      *  an image mode to display this icon of [ListBuilder.ICON_IMAGE] (Indicates that the image
      *  should be presented as an icon and it can be tinted), and the title for the action is the
-     *  [String] "Temperature Controls" (resource ID [R.string.slice_action_primary_title])
+     *  [String] "Temperature Controls" (resource ID `R.string.slice_action_primary_title`)
      *  - Next we add [SliceAction] which launches a [PendingIntent] to increase the current value
      *  of temperature returned by the [getTemperature] by 1, whose icon is the resource drawable
-     *  with ID [R.drawable.ic_temp_up] (an "UP" arrow), with an image mode to display this icon of
+     *  with ID `R.drawable.ic_temp_up` (an "UP" arrow), with an image mode to display this icon of
      *  [ListBuilder.ICON_IMAGE], and the title for the action is the [String] "Increase temperature"
-     *  (resource ID [R.string.increase_temperature])
+     *  (resource ID `R.string.increase_temperature`)
      *  - Finally we add [SliceAction] which launches a [PendingIntent] to decrease the current value
      *  of temperature returned by the [getTemperature] by 1, whose icon is the resource drawable
-     *  with ID [R.drawable.ic_temp_down] (a "DOWN" arrow), with an image mode to display this icon
+     *  with ID `R.drawable.ic_temp_down` (a "DOWN" arrow), with an image mode to display this icon
      *  of [ListBuilder.ICON_IMAGE], and the title for the action is the [String] "Decrease temperature"
-     *  (resource ID [R.string.decrease_temperature])
+     *  (resource ID `R.string.decrease_temperature`)
      *
      * @param sliceUri the [Uri] that was passed to [onBindSlice].
      * @return a [Slice] that displays the temperature and allows it to be changed.

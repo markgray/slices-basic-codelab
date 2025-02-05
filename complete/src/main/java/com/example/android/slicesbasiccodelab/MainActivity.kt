@@ -45,7 +45,7 @@ import com.example.android.slicesbasiccodelab.TemperatureBroadcastReceiver.Compa
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     /**
-     * The [TextView] with ID [R.id.temperature] that we use to display the current temperature
+     * The [TextView] with ID `R.id.temperature` that we use to display the current temperature
      */
     private lateinit var temperatureTextView: TextView
 
@@ -58,15 +58,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     /**
      * Called when the activity is starting. First we call our super's implementation of `onCreate`,
-     * then we set our content view to our layout file [R.layout.activity_main] which consists of a
-     * `ConstraintLayout` holding a [TextView] with ID [R.id.temperature] which we use to display
-     * the current temperature, an "Increase Temperature" [Button] with id [R.id.increase_temp],
-     * a 'Decrease Temperature" [Button] with id [R.id.decrease_temp], and an "Launch Slice Viewer"
-     * [Button] with id [R.id.launch_slice_viewer_application].
+     * then we set our content view to our layout file `R.layout.activity_main` which consists of a
+     * `ConstraintLayout` holding a [TextView] with ID `R.id.temperature` which we use to display
+     * the current temperature, an "Increase Temperature" [Button] with id `R.id.increase_temp`,
+     * a 'Decrease Temperature" [Button] with id `R.id.decrease_temp`, and an "Launch Slice Viewer"
+     * [Button] with id `R.id.launch_slice_viewer_application`.
      *
      * Having set our content view we next initialize our [TextView] field [temperatureTextView] by
-     * finding the view with ID [R.id.temperature], initialize our [String] field [sliceViewerPackageName]
-     * to the string with ID [R.string.slice_viewer_application_package_name] from our resources
+     * finding the view with ID `R.id.temperature`, initialize our [String] field [sliceViewerPackageName]
+     * to the string with ID `R.string.slice_viewer_application_package_name` from our resources
      * (its value is "com.example.android.sliceviewer"), and set the [View.OnClickListener] of all
      * three of our [Button]s to `this` (our [onClick] override will branch on the ID of the [View]
      * that was clicked in order to decide what needs to be done when the user clicks a [Button]).
@@ -118,13 +118,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     /**
      * Called when a view has been clicked. We branch on the ID of the [View] parameter [view]:
-     *  - [R.id.increase_temp] (the "Increase Temperature" [Button]) we call our [updateTemperature]
+     *  - `R.id.increase_temp` (the "Increase Temperature" [Button]) we call our [updateTemperature]
      *  method to have it increment our static field [temperature] by 1 and notify our slice about
      *  the new temperature.
-     *  - [R.id.decrease_temp] (the "Decrease Temperature" [Button]) we call our [updateTemperature]
+     *  - `R.id.decrease_temp` (the "Decrease Temperature" [Button]) we call our [updateTemperature]
      *  method to have it decrement our static field [temperature] by 1 and notify our slice about
      *  the new temperature.
-     *  - [R.id.launch_slice_viewer_application] (the "Launch Slice Viewer" [Button]) we call our
+     *  - `R.id.launch_slice_viewer_application` (the "Launch Slice Viewer" [Button]) we call our
      *  [launchSliceViewerApplication] method to have it start our slice viewer app slice-viewer.apk
      *  - For any other ID we return having done nothing.
      *
@@ -152,7 +152,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
      * for the package named [sliceViewerPackageName] has its `enabled` property set indicating that
      * the package is enabled) we proceed to:
      *  - Initialize our [String] variable `val uri` to the resource string with the ID
-     *  [R.string.uri_specific_for_slice_viewer_application], which is:
+     *  `R.string.uri_specific_for_slice_viewer_application`, which is:
      *  "slice-content://com.example.android.slicesbasiccodelab/temperature"
      *  - Initialize our [Intent] variable `val sliceViewerIntent` to an instance whose action is
      *  [Intent.ACTION_VIEW] (Display the data to the user) and whose Intent data URI is the [Uri]
@@ -265,10 +265,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         /**
          * Returns a [String] which displays our [temperature] field formatted using the format in
-         * [R.string.temperature].
+         * `R.string.temperature`.
          *
          * @return [String] which displays our [temperature] field formatted using the format in
-         * [R.string.temperature].
+         * `R.string.temperature`.
          */
         fun getTemperatureString(context: Context): String {
             return context.getString(R.string.temperature, temperature)

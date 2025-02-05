@@ -46,11 +46,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     /**
      * Called when the activity is starting. First we call our super's implementation of `onCreate`,
-     * then we set our content view to our layout file [R.layout.activity_main]. Next we initialize
-     * our [TextView] field [temperatureTextView] by finding the view with ID [R.id.temperature] and
+     * then we set our content view to our layout file `R.layout.activity_main`. Next we initialize
+     * our [TextView] field [temperatureTextView] by finding the view with ID `R.id.temperature` and
      * set our [String] field [sliceViewerPackageName] to the string with the resource ID
-     * [R.string.slice_viewer_application_package_name]. Finally we find the [Button]'s with ID's
-     * [R.id.increase_temp], [R.id.decrease_temp], and [R.id.launch_slice_viewer_application] and
+     * `R.string.slice_viewer_application_package_name`. Finally we find the [Button]'s with ID's
+     * `R.id.increase_temp`, `R.id.decrease_temp`, and `R.id.launch_slice_viewer_application` and
      * set their [View.OnClickListener] to `this`.
      *
      * @param savedInstanceState we do not override [onSaveInstanceState] so do not use.
@@ -105,10 +105,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     /**
      * Called when one of the views that `this` has been set as its [View.OnClickListener] for is
      * clicked. When the [View.getId] method (aka kotlin `id` property) of the [View] parameter
-     * [view] is [R.id.increase_temp] we call our method [updateTemperature] to increase the
-     * value of our [temperature] field by 1, when it is [R.id.decrease_temp] we call our method
+     * [view] is `R.id.increase_temp` we call our method [updateTemperature] to increase the
+     * value of our [temperature] field by 1, when it is `R.id.decrease_temp` we call our method
      * [updateTemperature] to decrease the value of our [temperature] field by 1, and it is
-     * [R.id.launch_slice_viewer_application] we call our method [launchSliceViewerApplication]
+     * `R.id.launch_slice_viewer_application` we call our method [launchSliceViewerApplication]
      * to launch the "Slice Viewer Application". For all other ID's we just return. Finally if
      * the ID was handled, we set the text of our [TextView] field [temperatureTextView] to the
      * string returned by our [getTemperatureString] method.
@@ -195,7 +195,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         /**
          * Returns the [String] that contains the value of our [temperature] field formatted using
-         * the [R.string.temperature] format (Temperature: %d\u00B0C).
+         * the `R.string.temperature` format (Temperature: %d\u00B0C).
          *
          * @param context the app's [Context] to use to retrieve resources.
          * @return a formatted [String] displaying the value of our [temperature] field.
