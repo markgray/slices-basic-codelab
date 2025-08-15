@@ -20,7 +20,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -34,6 +33,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
+import androidx.core.net.toUri
 
 /**
  * Displays the current temperature and allows user to adjust it up and down. Any adjustments from
@@ -129,7 +129,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         if (isSliceViewerApplicationInstalled() && isSliceViewerApplicationEnabled()) {
             val uri = getString(R.string.uri_specific_for_slice_viewer_application)
-            val sliceViewerIntent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+            val sliceViewerIntent = Intent(Intent.ACTION_VIEW, uri.toUri())
             startActivity(sliceViewerIntent)
         }
     }
@@ -141,7 +141,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         try {
             packageManager.getPackageInfo(sliceViewerPackageName, PackageManager.GET_ACTIVITIES)
             return true
-        } catch (ignored: PackageManager.NameNotFoundException) {
+        } catch (_: PackageManager.NameNotFoundException) {
 
             val notInstalledToast = Toast.makeText(
                 applicationContext,
@@ -167,7 +167,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             if (applicationInfo != null) {
                 status = applicationInfo.enabled
             }
-        } catch (ignored: PackageManager.NameNotFoundException) {
+        } catch (_: PackageManager.NameNotFoundException) {
 
             val notEnabledToast = Toast.makeText(
                 applicationContext,

@@ -37,6 +37,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import com.example.android.slicesbasiccodelab.TemperatureBroadcastReceiver.Companion.EXTRA_TEMPERATURE_VALUE
+import androidx.core.net.toUri
 
 /**
  * Displays the current temperature and allows user to adjust it up and down. Any adjustments from
@@ -162,7 +163,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun launchSliceViewerApplication() {
         if (isSliceViewerApplicationInstalled() && isSliceViewerApplicationEnabled()) {
             val uri: String = getString(R.string.uri_specific_for_slice_viewer_application)
-            val sliceViewerIntent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+            val sliceViewerIntent = Intent(Intent.ACTION_VIEW, uri.toUri())
             startActivity(sliceViewerIntent)
         }
     }
