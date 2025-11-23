@@ -61,6 +61,13 @@ class TemperatureSliceProvider : SliceProvider() {
      * It must be overridden if an IntentFilter is specified on the SliceProvider in the manifest.
      *
      * This implementation maps an Intent with ACTION_VIEW to a slice URI.
+     *
+     * We start by creating a [Uri.Builder] to initialize variable `uriBuilder`, set its scheme to
+     * [ContentResolver.SCHEME_CONTENT] and set its authority to the package name of our app. If
+     * the [Intent.action] of our [Intent] parameter [intent] is [Intent.ACTION_VIEW] we set the
+     * [Uri.Builder.path] to "/temperature", and finally we return the built [Uri] to the caller.
+     *
+     * @param intent The Intent sent by the system.
      */
     override fun onMapIntentToUri(intent: Intent?): Uri {
         // Start building a URI with the content scheme and the provider's authority.
