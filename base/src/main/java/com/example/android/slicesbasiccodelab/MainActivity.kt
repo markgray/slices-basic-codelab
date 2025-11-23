@@ -159,7 +159,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun isSliceViewerApplicationEnabled(): Boolean {
         var status = false
         try {
-            // TODO: Use getApplicationInfo(String, PackageManager.ApplicationInfoFlags) for SDK 33+
+            // TASK: Use getApplicationInfo(String, PackageManager.ApplicationInfoFlags) for SDK 33+
             val applicationInfo: ApplicationInfo =
                 applicationContext.packageManager.getApplicationInfo(sliceViewerPackageName, 0)
 
@@ -223,7 +223,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         fun updateTemperature(context: Context, newTemperature: Int) {
             Log.d(TAG, "updateTemperature(): $newTemperature")
 
-            // TODO: Step 2.2, Notify TemperatureSliceProvider the temperature changed.
+            // TASK: Step 2.2, Notify TemperatureSliceProvider the temperature changed.
             if (temperature != newTemperature) {
                 temperature = newTemperature
 
